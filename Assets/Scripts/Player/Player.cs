@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     
     public float speed;
     
-    private float moveX, moveY;
+    private Vector3 movVector;
     
     private Animator anim;
     private CapsuleCollider collid;
@@ -21,18 +21,18 @@ public class Player : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         anim = gameObject.GetComponent<Animator>();
         collid = gameObject.GetComponent<CapsuleCollider>();
-    }
 
-    // Update is called once per frame
+        movVector = Vector3.zero;
+
+    }
 
     void Update()
     {
-        moveX = Input.GetAxis("Horizontal");
-        moveY = Input.GetAxis("Vertical");
+        movVector.z = Input.GetAxis("Vertical");
+        movVector.x = Input.GetAxis("Horizontal");
         
         //Animating
-
-        if (moveX+moveY != 0)
+        if (movVector != Vector3.zero)
             anim.SetBool("running",true);
         else
             anim.SetBool("running",false);
@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
     {
         //Vector3 targetvelocity = new Vector3(moveX * speed,0,moveY * speed);
 
-        Vector3 targetvelocity = Vector3.forward * moveY * speed;
+        Vector3 targetvelocity = movVector * speed;
         rb.AddForce(targetvelocity,ForceMode.Impulse);
     }
     private void View()
