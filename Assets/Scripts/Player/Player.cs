@@ -14,9 +14,9 @@ public class Player : MonoBehaviour
     public GameObject child;
     
     public float speed;
-    
-    private Vector2 movVector;
-    
+
+    public GameObject spell;
+
     private Animator anim;
     private CapsuleCollider collid;
     private Transform trans;
@@ -24,7 +24,17 @@ public class Player : MonoBehaviour
     //Controls
     private PlayerControls controls;
     private PlayerControls.OnFootActions onFootControls;
-   
+    
+    
+    private Vector2 GetmovVec;
+    private Vector2 GetmousePos;
+    private Vector3 movVector;
+    private Vector3 mousePos;
+
+    private bool MainSpellPressed;
+    private bool SecSpellPressed;
+    
+    
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -40,28 +50,57 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        movVector = onFootControls.Walk.ReadValue<Vector2>();
+        ReadInput();
+        SetAnimations();
 
-        anim.SetFloat("vertical",movVector.y);
-        anim.SetFloat("horizontal",movVector.x);
+        if (MainSpellPressed || SecSpellPressed)
+            CastSpells(MainSpellPressed, SecSpellPressed);
 
     }
     void FixedUpdate()
     {
        Move();
        View();
+       
     }
 
+    private void CastSpells(bool MainSpell, bool SecSpell)
+    {
+        GameObject casted = GameObject.Instantiate(spell, gameObject.transform);
+    }
+    private void ReadInput()
+    {
+        //read WSAD, movement
+        GetmovVec = onFootControls.Walk.ReadValue<Vector2>();
+        movVector.Set(GetmovVec.x,0,GetmovVec.y);
+        
+        //read mouse coordinates
+        GetmousePos = onFootControls.MousePos.ReadValue<Vector2>();
+        mousePos.Set(GetmousePos.x,GetmousePos.y,0);
+        
+        //Spells
+        MainSpellPressed = onFootControls.MainSpell.IsPressed();
+        SecSpellPressed = onFootControls.SecSpell.IsPressed();
+        
+    }
+
+    private void SetAnimations()
+    {
+        anim.SetFloat("vertical",movVector.z);
+        anim.SetFloat("horizontal",movVector.x);
+        
+        
+    }
     private void Move()
     {
-        Vector3 targetvelocity = new Vector3(movVector.x,0, movVector.y) * speed;
+        Vector3 targetvelocity = movVector * speed;
 
         rb.AddForce(targetvelocity,ForceMode.Impulse);
     }
     private void View()
     {
         Plane playerPlane = new Plane(Vector3.up, transform.position);
-        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(mousePos);
 
         float hitDist = 0f;
 
@@ -76,5 +115,8 @@ public class Player : MonoBehaviour
             
         }
     }
+    
+    
+    
     
 }

@@ -35,6 +35,33 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MainSpell"",
+                    ""type"": ""Button"",
+                    ""id"": ""018d6f95-6c3c-4f06-8223-ceaa9c28b821"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SecSpell"",
+                    ""type"": ""Button"",
+                    ""id"": ""08e7aaeb-f4bc-40dc-b751-c06ba9ba08f1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePos"",
+                    ""type"": ""Value"",
+                    ""id"": ""ec5eeb86-4830-42da-9c42-92bdeff0317a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -92,6 +119,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Walk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fce7825d-8dc6-405d-8976-9f034e4f32e3"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MainSpell"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea32bb33-ce6f-4333-8ccf-b89e70e01460"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecSpell"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9fdea7cc-1413-40e6-82a5-861f66396729"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePos"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -101,6 +161,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // OnFoot
         m_OnFoot = asset.FindActionMap("OnFoot", throwIfNotFound: true);
         m_OnFoot_Walk = m_OnFoot.FindAction("Walk", throwIfNotFound: true);
+        m_OnFoot_MainSpell = m_OnFoot.FindAction("MainSpell", throwIfNotFound: true);
+        m_OnFoot_SecSpell = m_OnFoot.FindAction("SecSpell", throwIfNotFound: true);
+        m_OnFoot_MousePos = m_OnFoot.FindAction("MousePos", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -161,11 +224,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_OnFoot;
     private IOnFootActions m_OnFootActionsCallbackInterface;
     private readonly InputAction m_OnFoot_Walk;
+    private readonly InputAction m_OnFoot_MainSpell;
+    private readonly InputAction m_OnFoot_SecSpell;
+    private readonly InputAction m_OnFoot_MousePos;
     public struct OnFootActions
     {
         private @PlayerControls m_Wrapper;
         public OnFootActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Walk => m_Wrapper.m_OnFoot_Walk;
+        public InputAction @MainSpell => m_Wrapper.m_OnFoot_MainSpell;
+        public InputAction @SecSpell => m_Wrapper.m_OnFoot_SecSpell;
+        public InputAction @MousePos => m_Wrapper.m_OnFoot_MousePos;
         public InputActionMap Get() { return m_Wrapper.m_OnFoot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -178,6 +247,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Walk.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnWalk;
                 @Walk.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnWalk;
                 @Walk.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnWalk;
+                @MainSpell.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMainSpell;
+                @MainSpell.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMainSpell;
+                @MainSpell.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMainSpell;
+                @SecSpell.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSecSpell;
+                @SecSpell.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSecSpell;
+                @SecSpell.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSecSpell;
+                @MousePos.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMousePos;
+                @MousePos.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMousePos;
+                @MousePos.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMousePos;
             }
             m_Wrapper.m_OnFootActionsCallbackInterface = instance;
             if (instance != null)
@@ -185,6 +263,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Walk.started += instance.OnWalk;
                 @Walk.performed += instance.OnWalk;
                 @Walk.canceled += instance.OnWalk;
+                @MainSpell.started += instance.OnMainSpell;
+                @MainSpell.performed += instance.OnMainSpell;
+                @MainSpell.canceled += instance.OnMainSpell;
+                @SecSpell.started += instance.OnSecSpell;
+                @SecSpell.performed += instance.OnSecSpell;
+                @SecSpell.canceled += instance.OnSecSpell;
+                @MousePos.started += instance.OnMousePos;
+                @MousePos.performed += instance.OnMousePos;
+                @MousePos.canceled += instance.OnMousePos;
             }
         }
     }
@@ -192,5 +279,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IOnFootActions
     {
         void OnWalk(InputAction.CallbackContext context);
+        void OnMainSpell(InputAction.CallbackContext context);
+        void OnSecSpell(InputAction.CallbackContext context);
+        void OnMousePos(InputAction.CallbackContext context);
     }
 }
