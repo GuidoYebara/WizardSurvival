@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9835679b2b1b2eb438309e3b08d696dc, type: 3}
   m_Name: FireBall
   m_EditorClassIdentifier: 
+  spellName: Fire Ball
   cost: 0
   speed: 15
-  damage: 10
+  damage: 75
   duration: 3
   deathTime: 0.7
   isAutoAim: 0
   isExplosive: 0
   traversesUnits: 0
+  description: Lanza una bola de fuego hacia tus enemigos.
+  icon: {fileID: 0}

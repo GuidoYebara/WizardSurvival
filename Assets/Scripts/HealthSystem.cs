@@ -42,4 +42,10 @@ public class HealthSystem : MonoBehaviour
         currentHealth = maxHealth * (float)healthPercent;
         gameObject.SetActive(true);
     }
+    public void Revive(Vector3 position, double healthPercent)
+    {
+        currentHealth = maxHealth * (float)healthPercent;
+        transform.position = position;
+        gameObject.SetActive(true);
+    }
 }
