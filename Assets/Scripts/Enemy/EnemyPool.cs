@@ -6,9 +6,9 @@ using UnityEngine;
  *This class should be use to control the poolof enemies. The idea is to have an scalable and effient use of Enemy instances regardles of  the enemy type
  *
  */
-public class EnemyPool
+public class EnemyPool : MonoBehaviour
 {
-    private EnemyPool _instance;
+    private static EnemyPool _instance;
     private Dictionary<EnemyType, BasicPooling> _enemyPool;
     // Start is called before the first frame update
    
@@ -17,7 +17,7 @@ public class EnemyPool
         _enemyPool = new Dictionary<EnemyType, BasicPooling>();
     }
 
-    public EnemyPool GetInstance()
+    public static EnemyPool GetInstance()
     {
         if(_instance == null)
         {
@@ -25,6 +25,18 @@ public class EnemyPool
         }
 
         return _instance;
+    }
+
+    public void InitializePool(EnemyType enemyType, GameObject enemyPrefab, int amount)
+    {
+        if (_enemyPool.ContainsKey(enemyType))
+        {
+            _enemyPool.GetValueOrDefault(enemyType).ChangePoolSize(amount);
+        }
+        else
+        {
+            _enemyPool.Add(enemyType, new BasicPooling(enemyPrefab, gameObject, amount));
+        }
     }
 
 
