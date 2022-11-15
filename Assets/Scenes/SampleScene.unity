@@ -632,7 +632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   child: {fileID: 504193650}
   speed: 30
-  spell: {fileID: 6398356717877264883, guid: 99714dd3a72078b4f8b1ec600af17603, type: 3}
+  spell: {fileID: 185909398068651687, guid: 1f9856fbad223614e98ca84b5edcaf2f, type: 3}
 --- !u!1 &600261452
 GameObject:
   m_ObjectHideFlags: 0
