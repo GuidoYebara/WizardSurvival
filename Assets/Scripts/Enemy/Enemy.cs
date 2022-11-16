@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//WIP: this class should be used to model enemies. 
 public class Enemy : MonoBehaviour
 {
 

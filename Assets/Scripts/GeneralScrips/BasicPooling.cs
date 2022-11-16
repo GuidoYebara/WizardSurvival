@@ -6,7 +6,7 @@ using UnityEngine;
  *A basic class to allow pooling.
  *Intantiates a predefined number
  */
-public class BasicPooling : MonoBehaviour
+public class BasicPooling
 {
     private List<GameObject> _pool;
     private readonly GameObject _spawnPrefab;
@@ -20,10 +20,6 @@ public class BasicPooling : MonoBehaviour
         _maxAmount = maxAmount;
 
         _pool = new List<GameObject>();
-    }
-
-    public void Initialize()
-    {
         Initialize(_maxAmount);
     }
 
@@ -31,7 +27,7 @@ public class BasicPooling : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            GameObject newSpawn = Instantiate(_spawnPrefab, _spawner.transform);
+            GameObject newSpawn = Object.Instantiate(_spawnPrefab, _spawner.transform);
 
             newSpawn.SetActive(false);
 
@@ -47,10 +43,8 @@ public class BasicPooling : MonoBehaviour
         {
             GameObject current = _pool[0];
             _pool.RemoveAt(0);
-
             return current;
         }
-
         return null;
     }
 
@@ -67,7 +61,7 @@ public class BasicPooling : MonoBehaviour
 
     public bool IsEmpty()
     {
-        return _pool.Count > 0;
+        return _pool.Count == 0;
     }
 
     public bool IsFull()

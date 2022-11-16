@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4097065460604281224}
   - component: {fileID: 7070368021327122738}
   - component: {fileID: 7671375328364419615}
+  - component: {fileID: 7410823228109488961}
+  - component: {fileID: 8012457906566425467}
   m_Layer: 0
   m_Name: Blob
   m_TagString: Enemy
@@ -115,3 +117,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
+--- !u!114 &7410823228109488961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7605445102627406323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e71a399ec616884684c081be19922e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8012457906566425467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7605445102627406323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b43f90ceb022d46a3ed19f8ce8faec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+  _forceModifier: 0.3
