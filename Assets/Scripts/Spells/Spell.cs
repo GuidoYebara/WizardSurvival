@@ -1,42 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
+
+public enum TypeOfSpellElement
+{
+    None,
+    Fire,
+    Thunder,
+    Ice
+}
+
+public enum TypeOfSpells
+{
+    Fireball,
+    Ligthingball
+}
 
 public class Spell : MonoBehaviour
 {
-    [SerializeField] float cost;
-    [SerializeField] float speed;
-    [SerializeField] float damage;
-    [SerializeField] float duration;
-    [SerializeField] float deathTime;
+    [SerializeField] protected TypeOfSpells spellType;
 
-    [SerializeField] bool isAutoAim;
-    [SerializeField] bool isExplosive;
-    [SerializeField] bool traversesUnits;
+    [SerializeField] protected float cost;
+    [SerializeField] protected float speed;
+    [SerializeField] protected float damage;
+    [SerializeField] protected float duration;
+    [SerializeField] protected float deathTime;
 
-    [SerializeField] string description;
+    [SerializeField] protected bool isAutoAim;
+    [SerializeField] protected bool isExplosive;
+    [SerializeField] protected bool traversesUnits;
 
-    [SerializeField] GameObject targetPos;
+    [SerializeField] protected string description;
 
-    [SerializeField] Sprite icon;
-    [SerializeField] SpellSO reference;
-    [SerializeField] Rigidbody rb;
+    [SerializeField] protected GameObject targetPos;
 
+    [SerializeField] protected Sprite icon;
+    [SerializeField] protected SpellSO reference;
+    [SerializeField] protected Rigidbody rb;
+
+    [SerializeField] protected TypeOfSpellElement spellTypeElement;
+
+    public delegate void _OnDeath(GameObject go);
+    public event _OnDeath OnDeath;
+
+    public TypeOfSpells SpellType { get { return spellType; } }
     public float Cost { get { return cost; } }
     public float Speed { get { return speed; } }
     public float Damage { get { return damage; } }
     public float DeathTime { get { return deathTime; } }
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        Init();
+        if(reference) Init();
         rb = transform.GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         deathTime = (deathTime <= 0) ? 0 : deathTime - Time.deltaTime;
@@ -44,23 +63,25 @@ public class Spell : MonoBehaviour
 
         if (duration <= 0) Desactivate();
     }
-
     private void FixedUpdate()
     {
         Move();
     }
 
-    private void OnCollisionEnter(Collision collision) // [NEW]
+    private void OnCollisionEnter(Collision collision)
     {
+        if (!collision.transform.GetComponent<HealthSystem>()) return;
         if (collision.transform.tag != "Enemy") return;
 
-        float dmg = Dmg();
+        collision.transform.GetComponent<HealthSystem>().TakeDamage(Dmg());
 
         if (!traversesUnits) Desactivate();
     }
 
     private void Init()
     {
+        spellType = reference.spellType;
+
         cost = reference.cost;
         speed = reference.speed;
         damage = reference.damage;
@@ -71,16 +92,18 @@ public class Spell : MonoBehaviour
         traversesUnits = reference.traversesUnits;
 
         description = reference.description;
-    } // [NEW]
+
+        icon = reference.icon;
+
+        spellTypeElement = reference.spellTypeElement;
+    }
     private void Desactivate()
     {
+        OnDeath(gameObject);
         gameObject.SetActive(false);
-    } // [NEW]
-    private float Dmg()
-    {
-        return damage;
-    } // [NEW]
-    private void Move()
+    }
+
+    protected virtual void Move()
     {
         if (isAutoAim)
         {
@@ -91,25 +114,30 @@ public class Spell : MonoBehaviour
         }
 
         rb.MovePosition(transform.position + transform.forward * speed * Time.fixedDeltaTime);
-    } // [NEW]
+    }
+    protected virtual float Dmg()
+    {
+        return damage;
+    }
 
-    public void Restart(Vector3 position, Quaternion rotation)
+    public void Reset(Vector3 position, Quaternion rotation)
     {
         transform.position = position;
         transform.rotation = rotation;
 
-        deathTime = reference.deathTime;
+        duration = reference.duration;
 
         gameObject.SetActive(true);
-    } // [NEW]
+    }
     public string Description()
     {
-        string descPlus = description + 
-            $"\nCost: {cost: 0.0}" +
+        string descPlus = 
+            $"Cost: {cost: 0.0}" +
             $"\nSpeed: {speed: 0.0}" +
             $"\nDamage: {damage: 0.0}" +
-            $"\nDeathTime: {deathTime: 0.0}";
+            $"\nDeathTime: {deathTime: 0.0}\n\n"
+            + description;
 
         return descPlus;
-    } // [NEW]
+    }
 }

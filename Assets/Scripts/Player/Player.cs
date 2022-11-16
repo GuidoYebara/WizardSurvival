@@ -15,7 +15,8 @@ public class Player : MonoBehaviour
     
     public float speed;
 
-    public GameObject spell;
+    public TypeOfSpells spellType;
+    public SpellsPool spellsPool;
 
     private Animator anim;
     private CapsuleCollider collid;
@@ -66,7 +67,7 @@ public class Player : MonoBehaviour
 
     private void CastSpells(bool MainSpell, bool SecSpell)
     {
-        GameObject casted = GameObject.Instantiate(spell, gameObject.transform);
+        spellsPool.GetSpell(transform.position, transform.rotation, spellType);
     }
     private void ReadInput()
     {

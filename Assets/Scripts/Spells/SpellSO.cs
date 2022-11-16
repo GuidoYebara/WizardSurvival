@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class SpellSO : ScriptableObject
 {
+    public TypeOfSpells spellType;
+
     public float cost;
     public float speed;
     public float damage;
@@ -17,4 +19,8 @@ public class SpellSO : ScriptableObject
     public bool traversesUnits;
 
     public string description;
+
+    public Sprite icon;
+
+    public TypeOfSpellElement spellTypeElement;
 }

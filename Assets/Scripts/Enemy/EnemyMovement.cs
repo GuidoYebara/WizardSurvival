@@ -13,7 +13,7 @@ public class EnemyMovement : MonoBehaviour
     private GameObject _player;
     [SerializeField]
     private float _forceModifier;
-    
+
     public GameObject Player { get => _player; set => _player = value; }
     public float ForceModifier { get => _forceModifier; set => _forceModifier = value; }
 
