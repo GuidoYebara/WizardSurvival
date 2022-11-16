@@ -1,10 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
+
+public enum TypeOfSpellElement
+{
+    None,
+    Fire,
+    Thunder,
+    Ice
+}
+
+public enum TypeOfSpells
+{
+    Fireball,
+    Ligthingball
+}
 
 public class Spell : MonoBehaviour
 {
-    [SerializeField] protected string spellName;
+    [SerializeField] protected TypeOfSpells spellType;
 
     [SerializeField] protected float cost;
     [SerializeField] protected float speed;
@@ -24,6 +39,12 @@ public class Spell : MonoBehaviour
     [SerializeField] protected SpellSO reference;
     [SerializeField] protected Rigidbody rb;
 
+    [SerializeField] protected TypeOfSpellElement spellTypeElement;
+
+    public delegate void _OnDeath(GameObject go);
+    public event _OnDeath OnDeath;
+
+    public TypeOfSpells SpellType { get { return spellType; } }
     public float Cost { get { return cost; } }
     public float Speed { get { return speed; } }
     public float Damage { get { return damage; } }
@@ -59,7 +80,7 @@ public class Spell : MonoBehaviour
 
     private void Init()
     {
-        spellName = reference.spellName;
+        spellType = reference.spellType;
 
         cost = reference.cost;
         speed = reference.speed;
@@ -73,9 +94,12 @@ public class Spell : MonoBehaviour
         description = reference.description;
 
         icon = reference.icon;
+
+        spellTypeElement = reference.spellTypeElement;
     }
     private void Desactivate()
     {
+        OnDeath(gameObject);
         gameObject.SetActive(false);
     }
 

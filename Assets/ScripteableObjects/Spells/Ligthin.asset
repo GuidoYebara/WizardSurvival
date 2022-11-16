@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9835679b2b1b2eb438309e3b08d696dc, type: 3}
   m_Name: Ligthin
   m_EditorClassIdentifier: 
-  spellName: Ligthing Ball
+  spellType: 1
   cost: 20
   speed: 120
   damage: 25
   duration: 0.5
   deathTime: 5
-  isAutoAim: 1
+  isAutoAim: 0
   isExplosive: 0
   traversesUnits: 0
   description: Crea un rayo que rebota entre los enemigos.
   icon: {fileID: 0}
+  spellTypeElement: 2
