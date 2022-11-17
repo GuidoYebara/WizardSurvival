@@ -29,6 +29,7 @@ public class EnemyPool
 
     public void InitializePool(EnemyType enemyType, GameObject enemyPrefab, int amount, GameObject spawn)
     {
+        Debug.Log(System.String.Format("{0}:{1}", enemyType, amount));
         if (_enemyPool.ContainsKey(enemyType))
         {
             _enemyPool.GetValueOrDefault(enemyType).ChangePoolSize(amount);
