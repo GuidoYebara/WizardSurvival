@@ -24,6 +24,7 @@ public class Spell : MonoBehaviour
     [SerializeField] protected float cost;
     [SerializeField] protected float speed;
     [SerializeField] protected float damage;
+    [SerializeField] protected int rebounds;
     [SerializeField] protected float duration;
     [SerializeField] protected float deathTime;
 
@@ -33,7 +34,7 @@ public class Spell : MonoBehaviour
 
     [SerializeField] protected string description;
 
-    [SerializeField] protected GameObject targetPos;
+    [SerializeField] List<GameObject> targets;
 
     [SerializeField] protected Sprite icon;
     [SerializeField] protected SpellSO reference;
@@ -68,12 +69,25 @@ public class Spell : MonoBehaviour
         Move();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (!collision.transform.GetComponent<HealthSystem>()) return;
-        if (collision.transform.tag != "Enemy") return;
+        if (!other.transform.GetComponent<HealthSystem>()) return;
+        if (other.transform.tag != "Enemy") return;
+        if (isAutoAim)
+        {
+            if (targets.Count > 0 && other.gameObject == targets[0])
+            {
+                other.transform.GetComponent<HealthSystem>().TakeDamage(Dmg(), spellTypeElement);
+                targets.Remove(targets[0]);
+                if (rebounds <= 0) Desactivate();
+                if (!traversesUnits) Desactivate();
+                rebounds--;
+                return;
+            }
+            return;
+        }
 
-        collision.transform.GetComponent<HealthSystem>().TakeDamage(Dmg());
+        other.transform.GetComponent<HealthSystem>().TakeDamage(Dmg(), spellTypeElement);
 
         if (!traversesUnits) Desactivate();
     }
@@ -85,6 +99,7 @@ public class Spell : MonoBehaviour
         cost = reference.cost;
         speed = reference.speed;
         damage = reference.damage;
+        rebounds = reference.rebounds;
         duration = reference.duration;
 
         isAutoAim = reference.isAutoAim;
@@ -107,12 +122,14 @@ public class Spell : MonoBehaviour
     {
         if (isAutoAim)
         {
-            Vector3 toPosition = targetPos.transform.position - transform.position;
-            toPosition.Normalize();
-            rb.MovePosition(transform.position + toPosition * speed * Time.fixedDeltaTime);
-            return;
+            if (targets.Count > 0)
+            {
+                Vector3 target = targets[0].transform.position - transform.position;
+                target.Normalize();
+                rb.MovePosition(transform.position + target * speed * Time.fixedDeltaTime);
+                return;
+            }
         }
-
         rb.MovePosition(transform.position + transform.forward * speed * Time.fixedDeltaTime);
     }
     protected virtual float Dmg()
@@ -120,12 +137,18 @@ public class Spell : MonoBehaviour
         return damage;
     }
 
-    public void Reset(Vector3 position, Quaternion rotation)
+    public void AddEnemy(GameObject enemyPos)
+    {
+        targets.Add(enemyPos);
+    }
+    public virtual void Reset(Vector3 position, Quaternion rotation)
     {
         transform.position = position;
         transform.rotation = rotation;
 
         duration = reference.duration;
+        rebounds = reference.rebounds;
+        targets.Clear();
 
         gameObject.SetActive(true);
     }
