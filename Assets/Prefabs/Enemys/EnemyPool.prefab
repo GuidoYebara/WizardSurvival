@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7717088457981637336}
   - component: {fileID: 8814853702806557640}
   - component: {fileID: 8736281898977831444}
+  - component: {fileID: -5430601559518704121}
+  - component: {fileID: 9138331712175713539}
   m_Layer: 0
   m_Name: EnemyPool
   m_TagString: Untagged
@@ -97,3 +99,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-5430601559518704121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8142455359583142497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 491b5c3fc40467c47b8c8cc0a41a2bc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blobPrefab: {fileID: 7605445102627406323, guid: f01055eceb1037d47baf0a7de7dbe141, type: 3}
+  _skellyPrefab: {fileID: 7605445102627406323, guid: 2df6e1c9122a0594abf332bf71887d4f, type: 3}
+  _spawnPoints: []
+--- !u!114 &9138331712175713539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8142455359583142497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfdc4e5cbd5967418044243c12f9b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _waves:
+  - {fileID: 11400000, guid: 299e78fc4b41e89469e17fd32d08000c, type: 2}
+  - {fileID: 11400000, guid: fbb76313a1b278d45a742e74b679d87e, type: 2}
+  - {fileID: 11400000, guid: 8db0f250c09d72b43987f1adc83fc6ba, type: 2}
+  - {fileID: 11400000, guid: e97c502c6c702ba43ae70083dc22bece, type: 2}
