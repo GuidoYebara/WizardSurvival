@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
 
     private void CastSpells(bool MainSpell, bool SecSpell)
     {
-        spellsPool.GetSpell(transform.position, transform.rotation, spellType);
+        spellsPool.GetSpell(transform.position + new Vector3(0,1,0), transform.rotation, spellType);
     }
     private void ReadInput()
     {

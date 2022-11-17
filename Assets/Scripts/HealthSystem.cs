@@ -18,7 +18,11 @@ public class HealthSystem : MonoBehaviour
     public float Health { get { return currentHealth; } }
     public bool IsInvulnerable { get { return isInvulnerable; } }
 
-    // Update is called once per frame
+    private void Start()
+    {
+        UpdateUI();
+    }
+
     void Update()
     {
         if (currentHealth <= 0) OnDeath();
@@ -35,7 +39,7 @@ public class HealthSystem : MonoBehaviour
         if (lifeNumber != null) lifeNumber.text = currentHealth.ToString();
     }
 
-    public void TakeDamage(float dmg) // Valores Negativos Suman Vida
+    public void TakeDamage(float dmg, TypeOfSpellElement elementType) // Valores Negativos Suman Vida
     {
         if (isInvulnerable) return;
 
