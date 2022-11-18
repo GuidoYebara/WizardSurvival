@@ -17,7 +17,9 @@ public class Player : MonoBehaviour
 
     public TypeOfSpells spellType;
     public SpellsPool spellsPool;
-
+    public float spellcd;
+    
+    
     private Animator anim;
     private CapsuleCollider collid;
     private Transform trans;
@@ -34,7 +36,7 @@ public class Player : MonoBehaviour
 
     private bool MainSpellPressed;
     private bool SecSpellPressed;
-    
+    private float CdRemaining=0;
     
     void Start()
     {
@@ -57,6 +59,8 @@ public class Player : MonoBehaviour
         if (MainSpellPressed || SecSpellPressed)
             CastSpells(MainSpellPressed, SecSpellPressed);
 
+        //Update cooldown
+        CdRemaining -= Time.deltaTime;
     }
     void FixedUpdate()
     {
@@ -67,7 +71,20 @@ public class Player : MonoBehaviour
 
     private void CastSpells(bool MainSpell, bool SecSpell)
     {
-        spellsPool.GetSpell(transform.position, transform.rotation, spellType);
+        if (CdRemaining <= 0)
+        {
+            Vector3 spellpos;
+
+            spellpos = transform.position;
+
+            spellpos.z += 0.2f;
+            spellpos.y += 0.3f;
+        
+            spellsPool.GetSpell(spellpos, transform.rotation, spellType);
+
+            CdRemaining = spellcd;
+        }
+ 
     }
     private void ReadInput()
     {
@@ -116,8 +133,12 @@ public class Player : MonoBehaviour
             
         }
     }
-    
-    
+
+    public void HitbyEnemy()
+    {
+        
+        
+    }
     
     
 }

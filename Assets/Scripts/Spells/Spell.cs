@@ -74,7 +74,9 @@ public class Spell : MonoBehaviour
         if (collision.transform.tag != "Enemy") return;
 
         collision.transform.GetComponent<HealthSystem>().TakeDamage(Dmg());
-
+        
+        
+        
         if (!traversesUnits) Desactivate();
     }
 
