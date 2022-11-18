@@ -45,9 +45,9 @@ public class EnemySpawn : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        //TODO: Find a way to avoid pooling when there are nomore available entities in the pool.
-        //the pooling system should know this, EnemyPool should be able to do somehting about this.
-        //This change would help to optimize the code a little bit.
+        //We could optimize this if we know how many enemies are currently deployed
+        //if all the enemies are deployed, and we have to wait until new enemis can be generated
+        //we could just skip the whole function
         EnemyType selectedEnemyType = enemyTypesToSpawn[0];
         if (enemyTypesToSpawn.Count > 0)
         {

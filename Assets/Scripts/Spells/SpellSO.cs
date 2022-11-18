@@ -11,6 +11,7 @@ public class SpellSO : ScriptableObject
     public float cost;
     public float speed;
     public float damage;
+    public int rebounds;
     public float duration;
     public float deathTime;
 
