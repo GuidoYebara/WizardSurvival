@@ -20,7 +20,7 @@ public class HealthSystem : MonoBehaviour
 
     private void Start()
     {
-        UpdateUI();
+
     }
 
     void Update()
@@ -33,34 +33,22 @@ public class HealthSystem : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void UpdateUI()
-    {
-        if (lifeBar != null) lifeBar.fillAmount = currentHealth / maxHealth;
-        if (lifeNumber != null) lifeNumber.text = currentHealth.ToString();
-    }
-
     public void TakeDamage(float dmg, TypeOfSpellElement elementType) // Valores Negativos Suman Vida
     {
         if (isInvulnerable) return;
 
         currentHealth = (currentHealth > 0) ? currentHealth - dmg : 0;
-
-        UpdateUI();
     }
 
     public void Revive(double healthPercent) // Ingrese Value 0.0 to 1.0
     {
         currentHealth = maxHealth * (float)healthPercent;
-
-        UpdateUI();
         gameObject.SetActive(true);
     }
     public void Revive(Vector3 position, double healthPercent)
     {
         currentHealth = maxHealth * (float)healthPercent;
         transform.position = position;
-
-        UpdateUI();
         gameObject.SetActive(true);
     }
     public void SwitchVulnerable(bool isInvulerable) => this.isInvulnerable = isInvulerable;
