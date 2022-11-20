@@ -8,55 +8,68 @@ using UnityEngine;
  */
 public class EnemyPool
 {
-    private static EnemyPool _instance;
-    private Dictionary<EnemyType, BasicPooling> _enemyPool;
+    private static EnemyPool instance;
+    private Dictionary<EnemyType, BasicPooling> enemyPool;
     // Start is called before the first frame update
    
     private EnemyPool()
     {
-        _enemyPool = new Dictionary<EnemyType, BasicPooling>();
+        enemyPool = new Dictionary<EnemyType, BasicPooling>();
     }
 
     public static EnemyPool GetInstance()
     {
-        if(_instance == null)
+        if(instance == null)
         {
-            _instance = new EnemyPool();
+            instance = new EnemyPool();
         }
 
-        return _instance;
+        return instance;
     }
 
     public void InitializePool(EnemyType enemyType, GameObject enemyPrefab, int amount, GameObject spawn)
     {
-        if (_enemyPool.ContainsKey(enemyType))
+        if (enemyPool.ContainsKey(enemyType))
         {
-            _enemyPool.GetValueOrDefault(enemyType).ChangePoolSize(amount);
+            enemyPool.GetValueOrDefault(enemyType).ChangePoolSize(amount);
         }
         else
         { 
-            _enemyPool.Add(enemyType, new BasicPooling(enemyPrefab, spawn, amount));
+            enemyPool.Add(enemyType, new BasicPooling(enemyPrefab, spawn, amount));
         }
     }
 
 
     public GameObject GetEnemy(EnemyType enemyType)
     {
-        if (_enemyPool.ContainsKey(enemyType))
+        if (enemyPool.ContainsKey(enemyType))
         {
-           return _enemyPool.GetValueOrDefault(enemyType).GetObject();
+           return enemyPool.GetValueOrDefault(enemyType).GetObject();
         }
         return null;
     }
 
     public void ReturnEnemyToPool(EnemyType enemyType, GameObject enemy)
     {
-        if (_enemyPool.ContainsKey(enemyType))
+        if (enemyPool.ContainsKey(enemyType))
         {
-            _enemyPool.GetValueOrDefault(enemyType).AddElemenToPool(enemy);
+            enemyPool.GetValueOrDefault(enemyType).AddElemenToPool(enemy);
         }
     }
 
+    /// <summary>
+    /// Method subscribed to enemy's death.
+    /// Returns the enemy to it's pool
+    /// </summary>
+    /// <param name="enemyInstance">The enemy that just died</param>
+    void OnEnemyDeath(GameObject enemyInstance)
+    {
+        Enemy enemy = enemyInstance.GetComponent<Enemy>();
+        if(enemy != null)
+        {
+            ReturnEnemyToPool(enemy.Type, enemyInstance);
+        }
+    }
 }
 
 

@@ -40,14 +40,12 @@ public class Enemy : MonoBehaviour
         
     }
 
-    void OnDeath()
+    public void OnDeath()
     {
-        EnemyPool pool = EnemyPool.GetInstance();
-        if(pool != null)
-        {
-            InitializeSelf();
-            pool.ReturnEnemyToPool(Type, gameObject);
-        }
+        //Do something else?
+        //initialize itself?
+        //Send a message about death
+        InitializeSelf();
     }
 }
 public enum EnemyType

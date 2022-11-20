@@ -74,16 +74,18 @@ public class BasicPooling
         return _maxAmount;
     }
 
-    /*
-     * Allows the pool to be expanded or reduced as necesary.
-     * It will always set the pool to its new max.
-     * Returns:
-     *  - TRUE: when the operation was successful
-     *  - FALSE: when it was not possible to resize the pool
-     */
+    /// <summary>
+    /// Allows the pool to be expanded or reduced as necesary.
+    /// It will always set the pool to its new max.
+    /// </summary>
+    /// <param name="newMaxAmount"> The new maximum ammount for the pool. Might be zero</param>
+    /// <returns>
+    ///   - TRUE: when the operation was successful
+    ///   - FALSE: when no re-size was wxecuted
+    /// </returns>
     public bool ChangePoolSize(int newMaxAmount)
     {
-        if (_maxAmount == newMaxAmount)
+        if (_maxAmount == newMaxAmount || newMaxAmount == 0)
         {
             return false;
         }

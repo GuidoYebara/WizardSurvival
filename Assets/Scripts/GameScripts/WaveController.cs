@@ -4,35 +4,36 @@ using UnityEngine;
 
 /// <summary>
 /// Basic wave logic.
-/// This scripts controls how the wave are build.
+/// This scripts controls how the waves are build and they current status
 /// </summary>
 public class WaveController : MonoBehaviour
 {
     [SerializeField]
     private GameObject _blobPrefab, _skellyPrefab;
+    private WaveSO _wave;
+    private List<GameObject> _activeSpawnPoints;
+    private List<GameObject> _allSpawnPoints;
+    private Dictionary<EnemyType, int> currentEnemiesOnWave;
+
     public GameObject BlobPrefab { get => _blobPrefab; set => _blobPrefab = value; }
     public GameObject SkellyPrefab { get => _skellyPrefab; set => _skellyPrefab = value; }
-
-    private WaveSO _wave;
     public WaveSO Wave { get => _wave; set => _wave = value; }
-
-    private List<GameObject> _activeSpawnPoints;
     private List<GameObject> ActiveSpawnPoints { get => _activeSpawnPoints; set => _activeSpawnPoints = value; }
-
-    private List<GameObject> _allSpawnPoints;
     public List<GameObject> AllSpawnPoints { get => _allSpawnPoints; set => _allSpawnPoints = value; }
-
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (IsWaveFinished())
+        {
+            EndWave();
+        }
     }
     private void LoadSpawnpoints()
     {
@@ -55,21 +56,23 @@ public class WaveController : MonoBehaviour
         }
     }
 
-
     private void WaveStart()
     {
+        currentEnemiesOnWave = new Dictionary<EnemyType, int>();
         EnemyPool instance = EnemyPool.GetInstance();
 
         if (Wave.MaxBlobOnWave > 0)
         {
             Debug.Log("initialize blob");
             instance.InitializePool(EnemyType.BLOB, BlobPrefab, Wave.MaxBlobOnScreen, gameObject);
+            currentEnemiesOnWave.Add(EnemyType.BLOB, Wave.MaxBlobOnWave);
         }
 
         if (Wave.MaxSkellyOnWave > 0)
         {
             Debug.Log("initialize skelly");
             instance.InitializePool(EnemyType.SKELLY, SkellyPrefab, Wave.MaxSkellyOnScreen, gameObject);
+            currentEnemiesOnWave.Add(EnemyType.SKELLY, Wave.MaxSkellyOnWave);
         }
 
         foreach (GameObject spawn in ActiveSpawnPoints)
@@ -77,7 +80,7 @@ public class WaveController : MonoBehaviour
             //this is a simple solution, we should  search for a more robust one
             //we should find a way to determinate how many enemies each spawn should spawn...
             //This solutions wokrs, but its not perfect. Speciually if we start doing variable spawn points
-            //We could event "move" the spawn points to add mor scrambling of enemie movement
+            //We could event "move" the spawn points to add more scrambling of enemie movement
             spawn.GetComponent<EnemySpawn>().AvailableEnemies = new Dictionary<EnemyType, int>();
             if (Wave.MaxBlobOnWave > 0)
             {
@@ -93,14 +96,16 @@ public class WaveController : MonoBehaviour
         }
     }
 
-    private void WaveEnd()
+    private void EndWave()
     {
         foreach (GameObject spawn in ActiveSpawnPoints)
         {
             spawn.SetActive(false);
         }
         ActiveSpawnPoints = null;
+        currentEnemiesOnWave = null;
         //gameObject.SetActive(false);
+        //then sends a message to its subscriers "WaveFinished"
     }
 
     public void KickOffWave()
@@ -111,5 +116,31 @@ public class WaveController : MonoBehaviour
         {
             WaveStart();
         }
+    }
+
+    void OnEnemyDeath(GameObject enemyInstance)
+    {
+        Enemy enemy = enemyInstance.GetComponent<Enemy>();
+        if(currentEnemiesOnWave != null && currentEnemiesOnWave.ContainsKey(enemy.Type))
+        {
+            currentEnemiesOnWave[enemy.Type]--;
+        }
+    }
+
+    public bool IsWaveFinished()
+    {
+        if (currentEnemiesOnWave != null || currentEnemiesOnWave.Count != 0)
+        {
+            foreach (EnemyType type in currentEnemiesOnWave.Keys)
+            {
+                if(currentEnemiesOnWave[type] <= 0)
+                {
+                    currentEnemiesOnWave.Remove(type);
+                }
+            }
+            return currentEnemiesOnWave.Count == 0;
+        }
+
+        return false;
     }
 }
