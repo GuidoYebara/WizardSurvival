@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f1f811c759a59647bb82d2025c6270d, type: 3}
   m_Name: FirstWave-TestWave
   m_EditorClassIdentifier: 
-  MaxBlobOnWave: 1
-  MaxSkellyOnWave: 1
-  MaxBlobOnScreen: 1
-  MaxSkellyOnScreen: 1
-  MaxActiveSpawnPoints: 1
+  MaxBlobOnWave: 20
+  MaxSkellyOnWave: 10
+  MaxBlobOnScreen: 10
+  MaxSkellyOnScreen: 5
+  MaxActiveSpawnPoints: 6
   WaveName: TestWave
   WaveDescription: A Wave test
-  CoolDownBeforeStart: 5
+  CoolDownBeforeStart: 1

@@ -81,18 +81,25 @@ public class WaveController : MonoBehaviour
             //we should find a way to determinate how many enemies each spawn should spawn...
             //This solutions wokrs, but its not perfect. Speciually if we start doing variable spawn points
             //We could event "move" the spawn points to add more scrambling of enemie movement
-            spawn.GetComponent<EnemySpawn>().AvailableEnemies = new Dictionary<EnemyType, int>();
-            if (Wave.MaxBlobOnWave > 0)
+            EnemySpawn enemySpawn = spawn.GetComponent<EnemySpawn>();
+            if(enemySpawn != null)
             {
-                spawn.GetComponent<EnemySpawn>().AvailableEnemies.Add(EnemyType.BLOB, Wave.MaxBlobOnWave / ActiveSpawnPoints.Count);
-            }
+                Dictionary<EnemyType, int>  availableEnemies = new Dictionary<EnemyType, int>(); 
+                if (Wave.MaxBlobOnWave > 0)
+                {
+                    availableEnemies.Add(EnemyType.BLOB, Wave.MaxBlobOnWave / ActiveSpawnPoints.Count);
+                }
 
-            if (Wave.MaxSkellyOnWave > 0)
-            {
-                spawn.GetComponent<EnemySpawn>().AvailableEnemies.Add(EnemyType.SKELLY, Wave.MaxSkellyOnWave / ActiveSpawnPoints.Count);
-            }
+                if (Wave.MaxSkellyOnWave > 0)
+                {
+                    availableEnemies.Add(EnemyType.SKELLY, Wave.MaxSkellyOnWave / ActiveSpawnPoints.Count);
+                }
 
-            spawn.SetActive(true);
+                spawn.SetActive(true);
+                enemySpawn.AvailableEnemies = availableEnemies;
+                enemySpawn.StartSpawn();
+            }
+            
         }
     }
 
@@ -139,7 +146,6 @@ public class WaveController : MonoBehaviour
             }
             return currentEnemiesOnWave.Count == 0;
         }
-
         return true;
     }
 }

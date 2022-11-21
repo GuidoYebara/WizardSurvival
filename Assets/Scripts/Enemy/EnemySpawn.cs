@@ -27,14 +27,7 @@ public class EnemySpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (AvailableEnemies == null)
-        {
-            AvailableEnemies = new Dictionary<EnemyType, int>();
-            AvailableEnemies.Add(EnemyType.BLOB, 10);
-        }
-        enemyTypesToSpawn = new List<EnemyType>(AvailableEnemies.Keys);
-
-        StartCoroutine(RespawnEnemys());
+       
     }
 
     // Update is called once per frame
@@ -48,6 +41,12 @@ public class EnemySpawn : MonoBehaviour
         //We could optimize this if we know how many enemies are currently deployed
         //if all the enemies are deployed, and we have to wait until new enemis can be generated
         //we could just skip the whole function
+        if(enemyTypesToSpawn.Count == 0)
+        {
+            Debug.Log("We are trying to spawn non existent enemies");
+            return;
+        }
+
         EnemyType selectedEnemyType;
         if (enemyTypesToSpawn.Count > 1)
         {
@@ -74,6 +73,7 @@ public class EnemySpawn : MonoBehaviour
         }
         else
         {
+            Debug.Log("EnemyRemoved");
             enemyTypesToSpawn.Remove(selectedEnemyType);
         }
         
@@ -103,6 +103,7 @@ public class EnemySpawn : MonoBehaviour
             SpawnEnemy();
             yield return new WaitForSeconds(SpawnCooldown);
         }
+        Debug.Log("No more enemies to spawn");
     }
 
     /// <summary>
@@ -111,5 +112,10 @@ public class EnemySpawn : MonoBehaviour
     public void OnPlayerDeath()
     {
         StopCoroutine(RespawnEnemys());
+    }
+
+    public void StartSpawn()
+    {
+        StartCoroutine(RespawnEnemys());
     }
 }

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7410823228109488961}
   - component: {fileID: 8012457906566425467}
   - component: {fileID: -7070458394552058843}
+  - component: {fileID: 8679154005757595980}
   m_Layer: 0
   m_Name: Blob
   m_TagString: Enemy
@@ -143,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
-  _forceModifier: 0.3
+  _forceModifier: 0.2
 --- !u!114 &-7070458394552058843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,3 +158,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 0
+--- !u!114 &8679154005757595980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7605445102627406323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c796ebd274643c246b21a7635fa01eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 100
+  maxHealth: 100
+  currentShield: 0
+  maxShield: 0
+  isInvulnerable: 0
