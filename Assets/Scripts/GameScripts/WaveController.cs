@@ -111,7 +111,6 @@ public class WaveController : MonoBehaviour
     public void KickOffWave()
     {
         LoadSpawnpoints();
-        // TODO: find a way to use the Wave delay at this point... maybe a coroutine?
         if (ActiveSpawnPoints != null && ActiveSpawnPoints.Count > 0)
         {
             WaveStart();
@@ -129,7 +128,7 @@ public class WaveController : MonoBehaviour
 
     public bool IsWaveFinished()
     {
-        if (currentEnemiesOnWave != null || currentEnemiesOnWave.Count != 0)
+        if (currentEnemiesOnWave != null && currentEnemiesOnWave.Count > 0)
         {
             foreach (EnemyType type in currentEnemiesOnWave.Keys)
             {
@@ -141,6 +140,6 @@ public class WaveController : MonoBehaviour
             return currentEnemiesOnWave.Count == 0;
         }
 
-        return false;
+        return true;
     }
 }
