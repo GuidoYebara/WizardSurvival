@@ -267,6 +267,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3566547586403773213, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3566547586403773215, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
       propertyPath: m_Name
       value: EnemySpawn (1)
@@ -528,6 +532,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3566547586403773213, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3566547586403773215, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
       propertyPath: m_Name
       value: EnemySpawn (4)
@@ -695,6 +703,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3566547586403773213, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3566547586403773215, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
       propertyPath: m_Name
       value: EnemySpawn (3)
@@ -762,6 +774,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3566547586403773211, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566547586403773213, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3566547586403773215, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
@@ -909,6 +925,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3566547586403773213, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3566547586403773215, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
       propertyPath: m_Name
       value: EnemySpawn (2)
@@ -976,6 +996,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3566547586403773211, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566547586403773213, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3566547586403773215, guid: 3785819d77bd00f4c81cca92cd2b363a, type: 3}
