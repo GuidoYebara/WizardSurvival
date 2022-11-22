@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7671375328364419615}
   - component: {fileID: 2545708136715005133}
   - component: {fileID: 9052748994056124960}
+  - component: {fileID: -8024593288149662746}
+  - component: {fileID: 2623196749504330094}
   m_Layer: 0
   m_Name: Skelly
   m_TagString: Enemy
@@ -142,4 +144,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
-  _forceModifier: 0.4
+  _forceModifier: 0.3
+--- !u!114 &-8024593288149662746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7605445102627406323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f63a3788d9e5aaf46ac0d7e40f182791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 1
+--- !u!114 &2623196749504330094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7605445102627406323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c796ebd274643c246b21a7635fa01eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 200
+  maxHealth: 200
+  currentShield: 0
+  maxShield: 0
+  isInvulnerable: 0

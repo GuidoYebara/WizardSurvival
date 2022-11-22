@@ -27,14 +27,7 @@ public class EnemySpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (AvailableEnemies == null)
-        {
-            AvailableEnemies = new Dictionary<EnemyType, int>();
-            AvailableEnemies.Add(EnemyType.BLOB, 10);
-        }
-        enemyTypesToSpawn = new List<EnemyType>(AvailableEnemies.Keys);
-
-        StartCoroutine(RespawnEnemys());
+       
     }
 
     // Update is called once per frame
@@ -48,11 +41,22 @@ public class EnemySpawn : MonoBehaviour
         //We could optimize this if we know how many enemies are currently deployed
         //if all the enemies are deployed, and we have to wait until new enemis can be generated
         //we could just skip the whole function
-        EnemyType selectedEnemyType = enemyTypesToSpawn[0];
-        if (enemyTypesToSpawn.Count > 0)
+        if(enemyTypesToSpawn.Count == 0)
+        {
+            Debug.Log("We are trying to spawn non existent enemies");
+            return;
+        }
+
+        EnemyType selectedEnemyType;
+        if (enemyTypesToSpawn.Count > 1)
         {
             selectedEnemyType = enemyTypesToSpawn[Random.Range(0, enemyTypesToSpawn.Count)];
+        } 
+        else
+        {
+            selectedEnemyType = enemyTypesToSpawn[0];
         }
+
         if (ShouldSpawnEnemy(selectedEnemyType))
         {
             GameObject newEnemy = EnemyPool.GetInstance().GetEnemy(selectedEnemyType);
@@ -67,6 +71,11 @@ public class EnemySpawn : MonoBehaviour
                 Debug.Log("No more enemies in pool.");
             }
         }
+        else
+        {
+            Debug.Log("EnemyRemoved");
+            enemyTypesToSpawn.Remove(selectedEnemyType);
+        }
         
     }
 
@@ -75,15 +84,16 @@ public class EnemySpawn : MonoBehaviour
         return AvailableEnemies[enemyType] > 0;
     }
 
+    /// <summary>
+    /// This method is used to determinate if the spawn should spawn more enemies 
+    /// </summary>
+    /// <returns>
+    /// - TRUE: when there are available types
+    /// - FALSE: when there are no more available types
+    /// </returns>
     private bool AreThereMoreEnemies()
     {
-        bool shouldSpawn = false;
-        foreach (EnemyType type in enemyTypesToSpawn)
-        {
-            shouldSpawn = shouldSpawn || AvailableEnemies[type] > 0;
-        }
-
-        return shouldSpawn;
+        return enemyTypesToSpawn.Count > 0;
     }
 
     IEnumerator RespawnEnemys()
@@ -91,7 +101,21 @@ public class EnemySpawn : MonoBehaviour
         while (AreThereMoreEnemies())
         {
             SpawnEnemy();
-            yield return new WaitForSeconds(_spawnCooldown);
+            yield return new WaitForSeconds(SpawnCooldown);
         }
+        Debug.Log("No more enemies to spawn");
+    }
+
+    /// <summary>
+    /// When the player dies, we stop spawning enemies
+    /// </summary>
+    public void OnPlayerDeath()
+    {
+        StopCoroutine(RespawnEnemys());
+    }
+
+    public void StartSpawn()
+    {
+        StartCoroutine(RespawnEnemys());
     }
 }

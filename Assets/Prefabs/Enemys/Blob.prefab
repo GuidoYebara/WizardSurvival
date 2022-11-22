@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7671375328364419615}
   - component: {fileID: 7410823228109488961}
   - component: {fileID: 8012457906566425467}
+  - component: {fileID: -7070458394552058843}
+  - component: {fileID: 8679154005757595980}
   m_Layer: 0
   m_Name: Blob
   m_TagString: Enemy
@@ -31,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 7605445102627406323}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.64, z: 0}
-  m_LocalScale: {x: 1.6485153, y: 1.6485153, z: 1.6485153}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -115,7 +117,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!114 &7410823228109488961
 MonoBehaviour:
@@ -142,4 +144,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
-  _forceModifier: 0.05
+  _forceModifier: 0.2
+--- !u!114 &-7070458394552058843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7605445102627406323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f63a3788d9e5aaf46ac0d7e40f182791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 0
+--- !u!114 &8679154005757595980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7605445102627406323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c796ebd274643c246b21a7635fa01eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 100
+  maxHealth: 100
+  currentShield: 0
+  maxShield: 0
+  isInvulnerable: 0
