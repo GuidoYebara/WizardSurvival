@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Basic game logic.
@@ -9,6 +10,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     private const string SPAWN_TAG = "Respawn";
+
+    [SerializeField] GameObject panelPause;
+    [SerializeField] GameObject panelGameOver;
 
     [SerializeField]
     private List<WaveSO> _waves;
@@ -31,6 +35,14 @@ public class GameController : MonoBehaviour
     void Start()
     {
         GameStart();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GamePause();
+        }
     }
 
     private void GameStart()
@@ -102,4 +114,24 @@ public class GameController : MonoBehaviour
         WaveControl.enabled = false;
         currentWave = 0;
     }
+
+    public void GamePause()
+    {
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+            panelPause.SetActive(false);
+        }
+        else if (Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
+            panelPause.SetActive(true);
+        }
+    }
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void ExitGame() => Application.Quit();
 }

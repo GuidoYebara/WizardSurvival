@@ -23,5 +23,6 @@ MonoBehaviour:
   isExplosive: 0
   traversesUnits: 1
   description: Crea un rayo que rebota entre los enemigos.
+  audioName: Ligthingball
   icon: {fileID: 0}
   spellTypeElement: 2

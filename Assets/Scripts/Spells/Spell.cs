@@ -34,12 +34,14 @@ public class Spell : MonoBehaviour
     [SerializeField] protected bool traversesUnits;
 
     [SerializeField] protected string description;
+    [SerializeField] protected string audioName;
 
     [SerializeField] List<GameObject> targets;
 
     [SerializeField] protected Sprite icon;
     [SerializeField] protected SpellSO reference;
     [SerializeField] protected Rigidbody rb;
+    [SerializeField] protected AudioSource audioSource;
 
     [SerializeField] protected TypeOfSpellElement spellTypeElement;
 
@@ -56,6 +58,9 @@ public class Spell : MonoBehaviour
     {
         if(reference) Init();
         rb = transform.GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+
+        EventManager.PlaySound(audioName, audioSource);
     }
 
     void Update()
@@ -108,6 +113,7 @@ public class Spell : MonoBehaviour
         traversesUnits = reference.traversesUnits;
 
         description = reference.description;
+        audioName = reference.audioName;
 
         icon = reference.icon;
 
@@ -152,6 +158,8 @@ public class Spell : MonoBehaviour
         targets.Clear();
 
         gameObject.SetActive(true);
+
+        EventManager.PlaySound(audioName, audioSource);
     }
     public string Description()
     {

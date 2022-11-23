@@ -11,11 +11,16 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] float maxShield;
     [SerializeField] bool isInvulnerable;
     [SerializeField] bool isPlayer;
+
+    [SerializeField] AudioSource _as;
+    [SerializeField] string audioName;
+
     public float Health { get { return currentHealth; } }
     public bool IsInvulnerable { get { return isInvulnerable; } }
 
     private void Start()
     {
+        _as = GetComponent<AudioSource>();
         UpdateUI();
     }
 
@@ -47,6 +52,7 @@ public class HealthSystem : MonoBehaviour
     public void TakeDamage(float dmg, TypeOfSpellElement elementType) // Valores Negativos Suman Vida
     {
         if (isInvulnerable) return;
+        EventManager.PlaySound(audioName, _as);
         currentHealth = (currentHealth > 0) ? currentHealth - dmg : 0;
         UpdateUI();
     }
