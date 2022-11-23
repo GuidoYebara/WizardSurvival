@@ -12,10 +12,10 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField]
     private GameObject _player;
     [SerializeField]
-    private float _forceModifier;
+    private float speed;
 
     public GameObject Player { get => _player; set => _player = value; }
-    public float ForceModifier { get => _forceModifier; set => _forceModifier = value; }
+    public float ForceModifier { get => speed; set => speed = value; }
 
     void Start()
     {
@@ -41,6 +41,12 @@ public class EnemyMovement : MonoBehaviour
     {
         //TODO: Adjust this to make it more "playable"
         Vector3 finalDirection =  Player.transform.position - gameObject.transform.position;
-        _rigidbody.AddForce(Vector3.Normalize(finalDirection) * _forceModifier, ForceMode.VelocityChange);
+        finalDirection = Vector3.Normalize(finalDirection);
+
+        _rigidbody.AddForce(finalDirection * speed, ForceMode.VelocityChange);
+
+
     }
 }
+
+

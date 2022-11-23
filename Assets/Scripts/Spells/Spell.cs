@@ -8,7 +8,8 @@ public enum TypeOfSpellElement
     None,
     Fire,
     Thunder,
-    Ice
+    Ice,
+    Physical
 }
 
 public enum TypeOfSpells

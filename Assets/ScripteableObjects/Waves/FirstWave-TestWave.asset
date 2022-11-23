@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f1f811c759a59647bb82d2025c6270d, type: 3}
   m_Name: FirstWave-TestWave
   m_EditorClassIdentifier: 
-  MaxBlobOnWave: 20
+  MaxBlobOnWave: 10
   MaxSkellyOnWave: 10
   MaxBlobOnScreen: 10
   MaxSkellyOnScreen: 5

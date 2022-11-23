@@ -24,18 +24,16 @@ public class EnemySpawn : MonoBehaviour
 
     private List<EnemyType> enemyTypesToSpawn;
 
-    // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-       
+        EventManager.OnPlayerDeath += StopSpawn;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
         
+    void OnDisable()
+    {
+        EventManager.OnPlayerDeath -= StopSpawn;
     }
-
+    
     private void SpawnEnemy()
     {
         //We could optimize this if we know how many enemies are currently deployed
@@ -109,7 +107,7 @@ public class EnemySpawn : MonoBehaviour
     /// <summary>
     /// When the player dies, we stop spawning enemies
     /// </summary>
-    public void OnPlayerDeath()
+    public void StopSpawn()
     {
         StopCoroutine(RespawnEnemys());
     }
