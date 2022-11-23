@@ -41,9 +41,23 @@ public static class EventManager
     public delegate void _OnUpdateScoreUI(int score);
     public static event _OnUpdateScoreUI OnUpdateScoreUI;
 
+    public delegate void _OnPlayerDeath();
+    public static event _OnPlayerDeath OnPlayerDeath;
+    
+    public delegate void _OnEnemyDeath(Enemy enemy);
+    public static event _OnEnemyDeath OnEnemyDeath;
     public static void UpdatePlayerLifeUI(float currentHealth, float maxHealth) => OnUpdatePlayerLifeUI?.Invoke(currentHealth, maxHealth);
     public static void UpdateWaveUI(int currentWave, int currentEnemys, int maxEnemys) => OnUpdateWaveUI?.Invoke(currentWave, currentEnemys, maxEnemys);
     public static void UpdateScoreUI(int score) => OnUpdateScoreUI?.Invoke(score);
+    public static void TriggerOnPlayerDeath() => OnPlayerDeath?.Invoke();
+
+    public static void TriggerOnEnemyDeath(GameObject enemy)
+    {
+        Enemy enemykilled = enemy.GetComponent<Enemy>();
+        
+        OnEnemyDeath?.Invoke(enemykilled);
+        UpdateScoreUI(enemykilled.Score);
+    }
     // ================================ UI Sector ================================
 
 }

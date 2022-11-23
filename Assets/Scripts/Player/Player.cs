@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Profiling;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,17 +12,20 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CapsuleCollider))]
 public class Player : MonoBehaviour
 {
-    private Rigidbody rb;
-    public GameObject child;
+    [SerializeField] private GameObject child;
     
-    public float speed;
-
-    public TypeOfSpells spellType;
-    public SpellsPool spellsPool;
-
+    [SerializeField] private float speed;
+    
+    [SerializeField] private SpellsPool spellsPool;
+    
+    [SerializeField] private float Mainspellcd;
+    [SerializeField] private float Secspellcd;
+    
+    private Rigidbody rb;
     private Animator anim;
     private CapsuleCollider collid;
     private Transform trans;
+    private HealthSystem heatlhsys;
     
     //Controls
     private PlayerControls controls;
@@ -32,16 +37,19 @@ public class Player : MonoBehaviour
     private Vector3 movVector;
     private Vector3 mousePos;
 
+    //Spells
     private bool MainSpellPressed;
     private bool SecSpellPressed;
-    
+    private float MainSpellCdRemaining;
+    private float SecSpellCdRemaining;
     
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         anim = gameObject.GetComponent<Animator>();
         collid = gameObject.GetComponent<CapsuleCollider>();
-
+        heatlhsys = gameObject.GetComponent<HealthSystem>();
+        
         movVector = Vector2.zero;
         
         controls = new PlayerControls();
@@ -56,18 +64,35 @@ public class Player : MonoBehaviour
 
         if (MainSpellPressed || SecSpellPressed)
             CastSpells(MainSpellPressed, SecSpellPressed);
-
+                
+        //Update cooldown
+        MainSpellCdRemaining = (MainSpellCdRemaining <= 0) ? 0 : MainSpellCdRemaining -= Time.deltaTime;
+        SecSpellCdRemaining = (SecSpellCdRemaining <= 0) ? 0 : SecSpellCdRemaining -= Time.deltaTime;
     }
     void FixedUpdate()
     {
        Move();
        View();
-       
     }
 
     private void CastSpells(bool MainSpell, bool SecSpell)
     {
-        spellsPool.GetSpell(transform.position + new Vector3(0,1,0), transform.rotation, spellType);
+        Vector3 spellpos;
+        spellpos = transform.position;
+        spellpos.z += 0.2f;
+        spellpos.y += 0.3f;
+        
+        if (MainSpell && MainSpellCdRemaining <= 0)
+        {
+            spellsPool.GetSpell(spellpos, transform.rotation, TypeOfSpells.Fireball);
+            MainSpellCdRemaining = Mainspellcd;
+        }
+        
+        if (SecSpell && SecSpellCdRemaining <= 0)
+        {
+            spellsPool.GetSpell(spellpos, transform.rotation, TypeOfSpells.Ligthingball);
+            SecSpellCdRemaining = Secspellcd;
+        }
     }
     private void ReadInput()
     {
@@ -82,15 +107,12 @@ public class Player : MonoBehaviour
         //Spells
         MainSpellPressed = onFootControls.MainSpell.IsPressed();
         SecSpellPressed = onFootControls.SecSpell.IsPressed();
-        
     }
 
     private void SetAnimations()
     {
         anim.SetFloat("vertical",movVector.z);
         anim.SetFloat("horizontal",movVector.x);
-        
-        
     }
     private void Move()
     {
@@ -113,11 +135,9 @@ public class Player : MonoBehaviour
             targetRotation.z = 0;
             
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 7f * Time.deltaTime);
-            
         }
     }
-    
-    
-    
+
     
 }
+

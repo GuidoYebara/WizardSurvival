@@ -20,6 +20,17 @@ public class WaveController : MonoBehaviour
     public WaveSO Wave { get => _wave; set => _wave = value; }
     private List<GameObject> ActiveSpawnPoints { get => _activeSpawnPoints; set => _activeSpawnPoints = value; }
     public List<GameObject> AllSpawnPoints { get => _allSpawnPoints; set => _allSpawnPoints = value; }
+    
+    void OnEnable()
+    {
+        EventManager.OnEnemyDeath += ReduceEnemy;
+    }
+        
+    void OnDisable()
+    {
+        EventManager.OnEnemyDeath -= ReduceEnemy;
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +45,9 @@ public class WaveController : MonoBehaviour
         {
             EndWave();
         }
+
+        EventManager.UpdateWaveUI(_wave.WaveNumber, currentEnemiesOnWave.Count,
+            _wave.MaxBlobOnWave + _wave.MaxSkellyOnWave);
     }
     private void LoadSpawnpoints()
     {
@@ -124,9 +138,8 @@ public class WaveController : MonoBehaviour
         }
     }
 
-    void OnEnemyDeath(GameObject enemyInstance)
+    private void ReduceEnemy(Enemy enemy)
     {
-        Enemy enemy = enemyInstance.GetComponent<Enemy>();
         if(currentEnemiesOnWave != null && currentEnemiesOnWave.ContainsKey(enemy.Type))
         {
             currentEnemiesOnWave[enemy.Type]--;

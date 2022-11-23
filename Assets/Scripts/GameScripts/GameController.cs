@@ -18,7 +18,16 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private int currentWave;
 
-    // Start is called before the first frame update
+    void OnEnable()
+    {
+        EventManager.OnPlayerDeath += StopPrepareWave;
+    }
+        
+    void OnDisable()
+    {
+        EventManager.OnPlayerDeath -= StopPrepareWave;
+    }
+    
     void Start()
     {
         GameStart();
@@ -35,12 +44,6 @@ public class GameController : MonoBehaviour
         WaveControl.AllSpawnPoints = AllSpawnPoints;
         WaveControl.enabled = false;
         StartCoroutine(PrepareWave());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     IEnumerable WavesCoroutine()
@@ -92,7 +95,7 @@ public class GameController : MonoBehaviour
     /// This function should decide what to do when the player dies
     /// Should we start over? just re-start the current wave?
     /// </summary>
-    public void OnPlayerDeath()
+    public void StopPrepareWave()
     {
         StopCoroutine(PrepareWave()); //Not completly sure if this courutine is still going,
                                       //it should't, but, just to sure, we kill it
