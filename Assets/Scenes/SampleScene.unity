@@ -682,9 +682,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   child: {fileID: 504193650}
   speed: 30
-  spellType: 1
   spellsPool: {fileID: 2065999544}
-  spellcd: 1
+  Mainspellcd: 0.4
+  Secspellcd: 2
 --- !u!114 &504193660
 MonoBehaviour:
   m_ObjectHideFlags: 0
