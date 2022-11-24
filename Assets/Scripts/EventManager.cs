@@ -35,8 +35,8 @@ public static class EventManager
     public delegate void _OnUpdatePlayerLifeUI(float currentHealth, float maxHealth);
     public static event _OnUpdatePlayerLifeUI OnUpdatePlayerLifeUI;
 
-    public delegate void _OnUpdateWaveUI(int currentWave, int currentEnemys, int maxEnemys);
-    public static event _OnUpdateWaveUI OnUpdateWaveUI;
+    public delegate void _OnUpdateWaveUI(string currentWave, int currentEnemys, int maxEnemys);
+    public static event _OnUpdateWaveUI OnUpdateWaveUI;   
 
     public delegate void _OnUpdateScoreUI(int score);
     public static event _OnUpdateScoreUI OnUpdateScoreUI;
@@ -47,17 +47,24 @@ public static class EventManager
     public delegate void _OnEnemyDeath(Enemy enemy);
     public static event _OnEnemyDeath OnEnemyDeath;
     public static void UpdatePlayerLifeUI(float currentHealth, float maxHealth) => OnUpdatePlayerLifeUI?.Invoke(currentHealth, maxHealth);
-    public static void UpdateWaveUI(int currentWave, int currentEnemys, int maxEnemys) => OnUpdateWaveUI?.Invoke(currentWave, currentEnemys, maxEnemys);
+    public static void UpdateWaveUI(string currentWave, int currentEnemys, int maxEnemys) => OnUpdateWaveUI?.Invoke(currentWave, currentEnemys, maxEnemys);
     public static void UpdateScoreUI(int score) => OnUpdateScoreUI?.Invoke(score);
     public static void TriggerOnPlayerDeath() => OnPlayerDeath?.Invoke();
 
     public static void TriggerOnEnemyDeath(GameObject enemy)
     {
         Enemy enemykilled = enemy.GetComponent<Enemy>();
-        
+        enemykilled?.InitializeSelf();
         OnEnemyDeath?.Invoke(enemykilled);
         UpdateScoreUI(enemykilled.Score);
     }
     // ================================ UI Sector ================================
+
+    // ============================ General game sector ==========================
+    public delegate void _OnWaveEnd(WaveSO wave);
+    public static event _OnWaveEnd OnWaveEnd;
+
+    public static void TriggerOnWaveEnd(WaveSO wave) => OnWaveEnd?.Invoke(wave);
+    // ============================ General game sector ==========================
 
 }

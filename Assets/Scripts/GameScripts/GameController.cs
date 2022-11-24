@@ -35,6 +35,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         GameStart();
+        EventManager.OnWaveEnd += onWaveFinished;
     }
 
     private void Update()
@@ -58,23 +59,19 @@ public class GameController : MonoBehaviour
         StartCoroutine(PrepareWave());
     }
 
-    IEnumerable WavesCoroutine()
-    {
-       yield return new WaitForSeconds(1);
-    }
-
     IEnumerator PrepareWave()
     {
         WaveSO nextWave = Waves[currentWave];
         WaveControl.Wave = nextWave;
         //Preparation time before the wave starts. 
         //At this point we could inform the UI to show a count_down or something
+        
         yield return new WaitForSeconds(nextWave.CoolDownBeforeStart);
         WaveControl.enabled = true;
         WaveControl.KickOffWave();
     }
 
-    void onWaveFinished()
+    void onWaveFinished(WaveSO wave)
     {
         StopCoroutine(PrepareWave()); //Not completly sure if this courutine is still going,
                                       //it should't, but, just to sure, we kill it
@@ -91,6 +88,7 @@ public class GameController : MonoBehaviour
             //or something, maybe just close the game, or send the player to the shadow realm for crimes
             //against the poppulation of monsters they just slaugthered without mercy
             //Maybe the player was the true monster all along? 
+            GamePause();
         }
     }
 

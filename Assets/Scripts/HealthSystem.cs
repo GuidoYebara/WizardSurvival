@@ -74,5 +74,10 @@ public class HealthSystem : MonoBehaviour
         
         gameObject.SetActive(true);
     }
+
+    public void Revive()
+    {
+        currentHealth = maxHealth;
+    }
     public void SwitchVulnerable(bool isInvulnerable) => this.isInvulnerable = isInvulnerable;
 }

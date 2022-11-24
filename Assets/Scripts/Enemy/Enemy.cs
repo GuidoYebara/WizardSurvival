@@ -26,8 +26,12 @@ public class Enemy : MonoBehaviour
     public void InitializeSelf()
     {
         gameObject.SetActive(false);
-        healthPoints = maxHealthPoints;
-        gameObject.transform.position = _orignalSpawnPoint;
+        gameObject.transform.position = gameObject.GetComponentInParent<Transform>().position;
+        HealthSystem health = gameObject.GetComponent<HealthSystem>();
+        if(health != null)
+        {
+            health.Revive();
+        }
     }
 
     public string TalkShitToPlayer()
@@ -46,16 +50,7 @@ public class Enemy : MonoBehaviour
     {
         _hitcd = (_hitcd < 0)? 0 : _hitcd-=Time.deltaTime;
     }
-
-    public void OnDeath()
-    {
-        //Do something else?
-        //initialize itself?
-        //Send a message about death
-        InitializeSelf();
-    }
-    
-    
+        
     private void OnCollisionStay(Collision collision)
     {
         
