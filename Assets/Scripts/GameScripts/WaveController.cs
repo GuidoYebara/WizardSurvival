@@ -46,8 +46,7 @@ public class WaveController : MonoBehaviour
             EndWave();
         }
 
-        EventManager.UpdateWaveUI(_wave.WaveNumber, currentEnemiesOnWave.Count,
-            _wave.MaxBlobOnWave + _wave.MaxSkellyOnWave);
+        EventManager.UpdateWaveUI(Wave.name, GetCurrentTotalEnemies(), Wave.MaxBlobOnWave + Wave.MaxSkellyOnWave);
     }
     private void LoadSpawnpoints()
     {
@@ -119,14 +118,17 @@ public class WaveController : MonoBehaviour
 
     private void EndWave()
     {
-        foreach (GameObject spawn in ActiveSpawnPoints)
+        if(ActiveSpawnPoints != null)
         {
-            spawn.SetActive(false);
+            foreach (GameObject spawn in ActiveSpawnPoints)
+            {
+                spawn.SetActive(false);
+            }
         }
         ActiveSpawnPoints = null;
         currentEnemiesOnWave = null;
-        //gameObject.SetActive(false);
-        //then sends a message to its subscriers "WaveFinished"
+        enabled = false;
+        EventManager.TriggerOnWaveEnd(Wave);
     }
 
     public void KickOffWave()
@@ -149,10 +151,11 @@ public class WaveController : MonoBehaviour
     public bool IsWaveFinished()
     {
         if (currentEnemiesOnWave != null && currentEnemiesOnWave.Count > 0)
-        {
-            foreach (EnemyType type in currentEnemiesOnWave.Keys)
+        { 
+            List<EnemyType> currentTypes = new List<EnemyType>(currentEnemiesOnWave.Keys);
+            foreach (EnemyType type in currentTypes)
             {
-                if(currentEnemiesOnWave[type] <= 0)
+                if(currentEnemiesOnWave.ContainsKey(type) && currentEnemiesOnWave[type] <= 0)
                 {
                     currentEnemiesOnWave.Remove(type);
                 }
@@ -160,5 +163,23 @@ public class WaveController : MonoBehaviour
             return currentEnemiesOnWave.Count == 0;
         }
         return true;
+    }
+
+    private int GetCurrentTotalEnemies()
+    {
+        int totalEnemies = 0;
+        if (currentEnemiesOnWave != null && currentEnemiesOnWave.Count > 0)
+        {
+            List<EnemyType> currentTypes = new List<EnemyType>(currentEnemiesOnWave.Keys);
+            foreach (EnemyType type in currentTypes)
+            {
+                if (currentEnemiesOnWave.ContainsKey(type))
+                {
+                    totalEnemies += currentEnemiesOnWave[type];
+                }
+            }
+        }
+
+        return totalEnemies;
     }
 }

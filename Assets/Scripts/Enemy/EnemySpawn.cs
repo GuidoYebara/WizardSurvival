@@ -39,7 +39,7 @@ public class EnemySpawn : MonoBehaviour
         //We could optimize this if we know how many enemies are currently deployed
         //if all the enemies are deployed, and we have to wait until new enemis can be generated
         //we could just skip the whole function
-        if(enemyTypesToSpawn.Count == 0)
+        if(enemyTypesToSpawn == null || enemyTypesToSpawn.Count == 0)
         {
             Debug.Log("We are trying to spawn non existent enemies");
             return;

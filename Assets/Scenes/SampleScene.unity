@@ -304,13 +304,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 726512278}
     - target: {fileID: 9138331712175713539, guid: dac6240cc187dc043b6273730e24890b, type: 3}
+      propertyPath: _waves.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9138331712175713539, guid: dac6240cc187dc043b6273730e24890b, type: 3}
       propertyPath: _waves.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 299e78fc4b41e89469e17fd32d08000c, type: 2}
     - target: {fileID: 9138331712175713539, guid: dac6240cc187dc043b6273730e24890b, type: 3}
       propertyPath: _waves.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 8db0f250c09d72b43987f1adc83fc6ba, type: 2}
+      objectReference: {fileID: 11400000, guid: d5604b099a0dc3a4982a861a72946caa, type: 2}
     - target: {fileID: 9138331712175713539, guid: dac6240cc187dc043b6273730e24890b, type: 3}
       propertyPath: _waves.Array.data[2]
       value: 
