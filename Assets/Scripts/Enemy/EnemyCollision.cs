@@ -19,12 +19,5 @@ public class EnemyCollision : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //TODO: send messages or something, the collision with player should be handled by the player, probably?
-        if (collision.gameObject.CompareTag("Player"))
-            Debug.Log("DIE SCUM!");
-        if (collision.gameObject.CompareTag("Enemy"))
-            Debug.Log("Im terribly sorry :(");
-    }
+
 }

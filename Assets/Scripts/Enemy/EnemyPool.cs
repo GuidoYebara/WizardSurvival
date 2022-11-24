@@ -10,11 +10,21 @@ public class EnemyPool
 {
     private static EnemyPool instance;
     private Dictionary<EnemyType, BasicPooling> enemyPool;
-    // Start is called before the first frame update
+
+    void OnEnable()
+    {
+        EventManager.OnEnemyDeath += StartReturnEnemyToPool;
+    }
+        
+    void OnDisable()
+    {
+        EventManager.OnEnemyDeath -= StartReturnEnemyToPool;
+    }
    
     private EnemyPool()
     {
         enemyPool = new Dictionary<EnemyType, BasicPooling>();
+        EventManager.OnEnemyDeath += StartReturnEnemyToPool;
     }
 
     public static EnemyPool GetInstance()
@@ -62,12 +72,12 @@ public class EnemyPool
     /// Returns the enemy to it's pool
     /// </summary>
     /// <param name="enemyInstance">The enemy that just died</param>
-    void OnEnemyDeath(GameObject enemyInstance)
+    public void StartReturnEnemyToPool(Enemy enemy)
     {
-        Enemy enemy = enemyInstance.GetComponent<Enemy>();
+        Debug.Log("Returning enemy to pool i guess");
         if(enemy != null)
         {
-            ReturnEnemyToPool(enemy.Type, enemyInstance);
+            ReturnEnemyToPool(enemy.Type, enemy.gameObject);
         }
     }
 }

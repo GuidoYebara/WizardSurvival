@@ -20,6 +20,7 @@ public class SpellSO : ScriptableObject
     public bool traversesUnits;
 
     public string description;
+    public string audioName;
 
     public Sprite icon;
 

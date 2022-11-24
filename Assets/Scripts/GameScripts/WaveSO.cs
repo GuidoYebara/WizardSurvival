@@ -12,6 +12,10 @@ using UnityEngine;
 public class WaveSO : ScriptableObject
 {
     /// <summary>
+    /// It starts in Wave 1, and so on...
+    /// </summary>
+    public int WaveNumber;
+    /// <summary>
     /// Defines the max ammount of BLOB enemies on the wave
     /// 0 should spawn NO enemies of this type
     /// </summary>

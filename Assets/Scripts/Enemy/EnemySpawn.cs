@@ -24,30 +24,27 @@ public class EnemySpawn : MonoBehaviour
 
     private List<EnemyType> enemyTypesToSpawn;
 
-    // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        if (AvailableEnemies == null)
-        {
-            AvailableEnemies = new Dictionary<EnemyType, int>();
-            AvailableEnemies.Add(EnemyType.BLOB, 10);
-        }
-        enemyTypesToSpawn = new List<EnemyType>(AvailableEnemies.Keys);
-
-        StartCoroutine(RespawnEnemys());
+        EventManager.OnPlayerDeath += StopSpawn;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
         
+    void OnDisable()
+    {
+        EventManager.OnPlayerDeath -= StopSpawn;
     }
-
+    
     private void SpawnEnemy()
     {
         //We could optimize this if we know how many enemies are currently deployed
         //if all the enemies are deployed, and we have to wait until new enemis can be generated
         //we could just skip the whole function
+        if(enemyTypesToSpawn == null || enemyTypesToSpawn.Count == 0)
+        {
+            Debug.Log("We are trying to spawn non existent enemies");
+            return;
+        }
+
         EnemyType selectedEnemyType;
         if (enemyTypesToSpawn.Count > 1)
         {
@@ -74,6 +71,7 @@ public class EnemySpawn : MonoBehaviour
         }
         else
         {
+            Debug.Log("EnemyRemoved");
             enemyTypesToSpawn.Remove(selectedEnemyType);
         }
         
@@ -103,13 +101,19 @@ public class EnemySpawn : MonoBehaviour
             SpawnEnemy();
             yield return new WaitForSeconds(SpawnCooldown);
         }
+        Debug.Log("No more enemies to spawn");
     }
 
     /// <summary>
     /// When the player dies, we stop spawning enemies
     /// </summary>
-    public void OnPlayerDeath()
+    public void StopSpawn()
     {
         StopCoroutine(RespawnEnemys());
+    }
+
+    public void StartSpawn()
+    {
+        StartCoroutine(RespawnEnemys());
     }
 }

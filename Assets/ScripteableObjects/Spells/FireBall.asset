@@ -16,11 +16,13 @@ MonoBehaviour:
   cost: 0
   speed: 15
   damage: 75
+  rebounds: 0
   duration: 3
   deathTime: 0.7
   isAutoAim: 0
   isExplosive: 0
   traversesUnits: 0
   description: Lanza una bola de fuego hacia tus enemigos.
+  audioName: Fireball_Hit
   icon: {fileID: 0}
   spellTypeElement: 1

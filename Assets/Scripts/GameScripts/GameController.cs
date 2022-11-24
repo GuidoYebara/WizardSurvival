@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Basic game logic.
@@ -10,6 +11,9 @@ public class GameController : MonoBehaviour
 {
     private const string SPAWN_TAG = "Respawn";
 
+    [SerializeField] GameObject panelPause;
+    [SerializeField] GameObject panelGameOver;
+
     [SerializeField]
     private List<WaveSO> _waves;
     public List<WaveSO> Waves { get => _waves; set => _waves = value; }
@@ -18,10 +22,28 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private int currentWave;
 
-    // Start is called before the first frame update
+    void OnEnable()
+    {
+        EventManager.OnPlayerDeath += StopPrepareWave;
+    }
+        
+    void OnDisable()
+    {
+        EventManager.OnPlayerDeath -= StopPrepareWave;
+    }
+    
     void Start()
     {
         GameStart();
+        EventManager.OnWaveEnd += onWaveFinished;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GamePause();
+        }
     }
 
     private void GameStart()
@@ -37,29 +59,19 @@ public class GameController : MonoBehaviour
         StartCoroutine(PrepareWave());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    IEnumerable WavesCoroutine()
-    {
-       yield return new WaitForSeconds(1);
-    }
-
     IEnumerator PrepareWave()
     {
         WaveSO nextWave = Waves[currentWave];
         WaveControl.Wave = nextWave;
         //Preparation time before the wave starts. 
         //At this point we could inform the UI to show a count_down or something
+        
         yield return new WaitForSeconds(nextWave.CoolDownBeforeStart);
         WaveControl.enabled = true;
         WaveControl.KickOffWave();
     }
 
-    void onWaveFinished()
+    void onWaveFinished(WaveSO wave)
     {
         StopCoroutine(PrepareWave()); //Not completly sure if this courutine is still going,
                                       //it should't, but, just to sure, we kill it
@@ -76,6 +88,7 @@ public class GameController : MonoBehaviour
             //or something, maybe just close the game, or send the player to the shadow realm for crimes
             //against the poppulation of monsters they just slaugthered without mercy
             //Maybe the player was the true monster all along? 
+            GamePause();
         }
     }
 
@@ -92,11 +105,31 @@ public class GameController : MonoBehaviour
     /// This function should decide what to do when the player dies
     /// Should we start over? just re-start the current wave?
     /// </summary>
-    public void OnPlayerDeath()
+    public void StopPrepareWave()
     {
         StopCoroutine(PrepareWave()); //Not completly sure if this courutine is still going,
                                       //it should't, but, just to sure, we kill it
         WaveControl.enabled = false;
         currentWave = 0;
     }
+
+    public void GamePause()
+    {
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+            panelPause.SetActive(false);
+        }
+        else if (Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
+            panelPause.SetActive(true);
+        }
+    }
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void ExitGame() => Application.Quit();
 }
