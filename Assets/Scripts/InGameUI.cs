@@ -23,7 +23,7 @@ public class InGameUI : MonoBehaviour
     {
         EventManager.OnUpdatePlayerLifeUI += UpdatePlayerLife;
         EventManager.OnUpdateWaveUI += UpdateWave;
-        //EventManager.OnUpdateScoreUI += UpdateScore;
+        EventManager.OnUpdateScoreUI += UpdateScore;
     }
     private void OnDisable()
     {
@@ -49,6 +49,7 @@ public class InGameUI : MonoBehaviour
     }
     void UpdateWave(string currentWave, int currentEnemys, int maxEnemys)
     {
+        Debug.Log(string.Format($"currentWave {0}, currentEnemys {1}, maxEnemys {2}", currentWave, currentEnemys, maxEnemys));
         if (currentWaveBar != null) currentWaveBar.fillAmount = currentEnemys / maxEnemys;
         if (this.currentWave != null) this.currentWave.text = currentWave;
     }
